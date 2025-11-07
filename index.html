@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeBron James Age Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calculate-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .calculate-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .clear-btn {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .clear-btn:hover {
+            background: #d0d0d0;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .result-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .result-title {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            font-size: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .comparison {
+            font-size: 16px;
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .older {
+            color: #e74c3c;
+        }
+
+        .younger {
+            color: #27ae60;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .timer-info {
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏀 LeBron James Calculator</h1>
+        <p class="subtitle">See how your age compares to King James</p>
+
+        <div class="info-box">
+            LeBron James was born on December 30, 1984. Enter your birth date to see your age comparison!
+        </div>
+
+        <div class="form-group">
+            <label for="birthDate">Your Birth Date</label>
+            <input type="date" id="birthDate" placeholder="Select your birth date">
+            <div class="error" id="error">Please enter a valid birth date</div>
+        </div>
+
+        <div class="button-group">
+            <button class="calculate-btn" onclick="calculateAge()">Calculate</button>
+            <button class="clear-btn" onclick="clearResults()">Clear</button>
+        </div>
+
+        <div class="results" id="results">
+            <div class="result-section">
+                <div class="result-title">Your Age</div>
+                <div class="result-value" id="yourAge">--</div>
+            </div>
+
+            <div class="result-section">
+                <div class="result-title">LeBron's Age</div>
+                <div class="result-value" id="lebronAge">--</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="result-section">
+                <div class="result-title">Age Difference</div>
+                <div class="result-value comparison" id="ageDiff">--</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="result-section">
+                <div class="result-title">Seconds Since LeBron's Birth</div>
+                <div class="result-value" id="secondsSinceLebron">--</div>
+                <div class="timer-info">Updating in real-time...</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="result-section">
+                <div class="result-title">Your Age Difference (in seconds)</div>
+                <div class="result-value comparison" id="secondsDiff">--</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const LEBRON_BIRTH = new Date(1984, 11, 30); // December 30, 1984
+
+        function calculateAge() {
+            const errorEl = document.getElementById('error');
+            const birthDateInput = document.getElementById('birthDate').value;
+
+            errorEl.classList.remove('show');
+
+            if (!birthDateInput) {
+                errorEl.classList.add('show');
+                document.getElementById('results').classList.remove('show');
+                return;
+            }
+
+            const birthDate = new Date(birthDateInput);
+            const today = new Date();
+
+            if (birthDate > today) {
+                errorEl.classList.add('show');
+                document.getElementById('results').classList.remove('show');
+                return;
+            }
+
+            // Calculate ages
+            let yourAge = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                yourAge--;
+            }
+
+            let lebronAge = today.getFullYear() - LEBRON_BIRTH.getFullYear();
+            const lebronMonthDiff = today.getMonth() - LEBRON_BIRTH.getMonth();
+            if (lebronMonthDiff < 0 || (lebronMonthDiff === 0 && today.getDate() < LEBRON_BIRTH.getDate())) {
+                lebronAge--;
+            }
+
+            const ageDifference = yourAge - lebronAge;
+
+            // Calculate seconds
+            const secondsSinceLebron = Math.floor((today - LEBRON_BIRTH) / 1000);
+            const secondsSinceYou = Math.floor((today - birthDate) / 1000);
+            const secondsDifference = secondsSinceYou - secondsSinceLebron;
+
+            // Display results
+            document.getElementById('yourAge').textContent = yourAge;
+            document.getElementById('lebronAge').textContent = lebronAge;
+
+            if (ageDifference > 0) {
+                document.getElementById('ageDiff').innerHTML = `<span class="older">You are ${ageDifference} year${ageDifference !== 1 ? 's' : ''} older</span>`;
+            } else if (ageDifference < 0) {
+                document.getElementById('ageDiff').innerHTML = `<span class="younger">You are ${Math.abs(ageDifference)} year${Math.abs(ageDifference) !== 1 ? 's' : ''} younger</span>`;
+            } else {
+                document.getElementById('ageDiff').innerHTML = `<span>You are the same age!</span>`;
+            }
+
+            document.getElementById('secondsSinceLebron').textContent = formatNumber(secondsSinceLebron);
+
+            if (secondsDifference > 0) {
+                document.getElementById('secondsDiff').innerHTML = `<span class="older">${formatNumber(secondsDifference)} seconds older</span>`;
+            } else if (secondsDifference < 0) {
+                document.getElementById('secondsDiff').innerHTML = `<span class="younger">${formatNumber(Math.abs(secondsDifference))} seconds younger</span>`;
+            } else {
+                document.getElementById('secondsDiff').innerHTML = `<span>Same age in seconds!</span>`;
+            }
+
+            document.getElementById('results').classList.add('show');
+
+            // Update seconds in real-time
+            updateSecondsInRealTime(secondsSinceLebron, secondsDifference);
+        }
+
+        function updateSecondsInRealTime(initialLebronSeconds, initialDifference) {
+            setInterval(() => {
+                const now = new Date();
+                const currentLebronSeconds = Math.floor((now - LEBRON_BIRTH) / 1000);
+                const currentDifference = initialDifference + (currentLebronSeconds - initialLebronSeconds);
+
+                document.getElementById('secondsSinceLebron').textContent = formatNumber(currentLebronSeconds);
+
+                if (currentDifference > 0) {
+                    document.getElementById('secondsDiff').innerHTML = `<span class="older">${formatNumber(currentDifference)} seconds older</span>`;
+                } else if (currentDifference < 0) {
+                    document.getElementById('secondsDiff').innerHTML = `<span class="younger">${formatNumber(Math.abs(currentDifference))} seconds younger</span>`;
+                } else {
+                    document.getElementById('secondsDiff').innerHTML = `<span>Same age in seconds!</span>`;
+                }
+            }, 1000);
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function clearResults() {
+            document.getElementById('birthDate').value = '';
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('error').classList.remove('show');
+        }
+
+        document.getElementById('birthDate').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                calculateAge();
+            }
+        });
+    </script>
+</body>
+</html>

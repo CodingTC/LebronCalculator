@@ -979,51 +979,6 @@ function switchMode(mode) {
             }
         });
 
-        function processDonation() {
-            const name = document.getElementById('donorName').value;
-            const email = document.getElementById('donorEmail').value;
-            const amount = document.getElementById('donationAmount').value;
-            const message = document.getElementById('donationMessage').value;
-            const statusEl = document.getElementById('donationStatus');
-
-            // Validation
-            if (!name || !email || !amount) {
-                statusEl.textContent = '❌ Please fill in all required fields';
-                statusEl.className = 'error';
-                return;
-            }
-
-            if (amount < 1) {
-                statusEl.textContent = '❌ Donation amount must be at least $1';
-                statusEl.className = 'error';
-                return;
-            }
-
-            // Show processing message
-            statusEl.textContent = '⏳ Processing your donation...';
-            statusEl.className = '';
-
-            // For now, show a success message and donation details
-            // In production, you would integrate with Stripe or PayPal
-            setTimeout(() => {
-                statusEl.innerHTML = `
-                    ✅ Thank you for your donation, ${name}!<br>
-                    Amount: $${parseFloat(amount).toFixed(2)}<br>
-                    <small style="color: #666; margin-top: 5px; display: block;">
-                    To complete your donation, please set up a payment processor like Stripe or PayPal.
-                    </small>
-                `;
-                statusEl.className = 'success';
-
-                // Clear form after 2 seconds
-                setTimeout(() => {
-                    document.getElementById('donorName').value = '';
-                    document.getElementById('donorEmail').value = '';
-                    document.getElementById('donationAmount').value = '';
-                    document.getElementById('donationMessage').value = '';
-                }, 2000);
-            }, 1000);
-        }
 
     </script>
 </body>

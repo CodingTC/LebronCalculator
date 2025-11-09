@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeBron James Age Calculator</title>
+    <title>LeBron James Hub</title>
     <style>
         * {
             margin: 0;
@@ -13,108 +13,196 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('glorious_pookie_James.png');
+            background-size: 38%;
+            background-position: center 15%;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             padding: 20px;
         }
 
+        .navbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border: 1px solid #666;
+            border-radius: 0px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #ddd;
+            color: #000;
+            font-family: Arial, sans-serif;
+            transition: none;
+        }
+
+        .nav-btn.active {
+            background: #667eea;
+            color: white;
+            border: 1px solid #444;
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:hover {
+            transform: none;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
+            background: #f5f5f5;
+            border-radius: 0px;
+            padding: 12px;
+            max-width: 380px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3), -1px -1px 5px rgba(255, 255, 255, 0.5);
+            border: 2px solid #999;
+            filter: contrast(1.1) brightness(0.95);
         }
 
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
+            color: #000;
+            margin-bottom: 2px;
+            font-size: 18px;
+            font-weight: 900;
+            font-family: Arial, sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
         }
 
         .subtitle {
             text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 6px;
+            border: 1px solid #666;
+            border-radius: 0px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: none;
+            background: #ddd;
+            color: #000;
+            font-family: Arial, sans-serif;
+        }
+
+        .mode-btn.active {
+            background: #667eea;
+            color: white;
+            border: 1px solid #444;
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .mode-btn:hover {
+            transform: none;
         }
 
         .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 8px;
+            background: #e8e8e8;
+            border-left: 2px solid #666;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 0px;
             font-size: 14px;
-            color: #555;
+            color: #333;
+            font-family: Arial, sans-serif;
+            border: 1px solid #999;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #333;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            padding: 6px;
+            border: 1px solid #999;
+            border-radius: 0px;
+            font-size: 12px;
+            transition: none;
+            font-family: Arial, sans-serif;
+            background: #fff;
         }
 
         input:focus {
             outline: none;
-            border-color: #667eea;
+            border: 1px solid #666;
+            box-shadow: inset 0px 0px 2px rgba(0,0,0,0.2);
         }
 
         .button-group {
             display: flex;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         button {
             flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 8px;
+            border: 1px solid #666;
+            border-radius: 0px;
+            font-size: 12px;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: none;
+            font-family: Arial, sans-serif;
         }
 
         .calculate-btn {
             background: #667eea;
             color: white;
+            border: 1px solid #444;
         }
 
         .calculate-btn:hover {
             background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transform: none;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
         }
 
         .clear-btn {
-            background: #e0e0e0;
-            color: #333;
+            background: #ddd;
+            color: #000;
         }
 
         .clear-btn:hover {
-            background: #d0d0d0;
+            background: #ccc;
         }
 
         .results {
@@ -126,25 +214,28 @@
         }
 
         .result-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 8px;
+            margin-bottom: 6px;
+            padding: 8px;
+            background: #e8e8e8;
+            border-radius: 0px;
+            border: 1px solid #999;
         }
 
         .result-title {
             font-weight: 700;
-            color: #667eea;
-            margin-bottom: 8px;
-            font-size: 14px;
+            color: #000;
+            margin-bottom: 2px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0px;
+            font-family: Arial, sans-serif;
         }
 
         .result-value {
-            font-size: 20px;
-            color: #333;
-            font-weight: 600;
+            font-size: 14px;
+            color: #000;
+            font-weight: 700;
+            font-family: Arial, sans-serif;
         }
 
         .comparison {
@@ -172,79 +263,319 @@
             display: block;
         }
 
-        .timer-info {
-            font-size: 12px;
-            color: #999;
-            margin-top: 10px;
-            text-align: center;
+        .hidden-input {
+            display: none;
         }
 
         .divider {
             height: 1px;
-            background: #e0e0e0;
-            margin: 20px 0;
+            background: #999;
+            margin: 4px 0;
         }
+
+        .sunshine-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            max-width: 400px;
+        }
+
+        #sunshine .sunshine-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            border: none;
+        }
+
+        #sunshine .audio-player {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            z-index: 10;
+            background: #e8e8e8;
+            border: 2px solid #999;
+            padding: 15px;
+            border-radius: 0px;
+            display: none;
+        }
+
+        #sunshine audio {
+            width: 100%;
+        }
+
+
+        .sunshine-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            display: none;
+        }
+
+        #sunshine .container {
+            display: none;
+        }
+
+        #sunshine .page.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+        }
+
+        #sunshine .sunshine-content {
+            display: none;
+        }
+
+        #sunshine .audio-player {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            z-index: 10;
+        }
+
+        .sunshine-footer.show {
+            display: block;
+        }
+
+        .sunshine-footer h2 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .sunshine-footer p {
+            font-size: 12px;
+            margin: 0;
+        }
+        #sunshine.page.active ~ .navbar,
+        body:has(#sunshine.page.active) .navbar {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        body:has(#sunshine.page.active) .navbar:hover {
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏀 LeBron James Calculator</h1>
-        <p class="subtitle">See how your age compares to King James</p>
+    <!-- Navbar -->
+    <div class="navbar">
+        <button class="nav-btn active" onclick="switchPage('calculator', event)">LeCalculator</button>
+        <button class="nav-btn" onclick="switchPage('sunshine', event)">Sunshine 🫶</button>
+    </div>
 
-        <div class="info-box">
-            LeBron James was born on December 30, 1984. Enter your birth date to see your age comparison!
-        </div>
+    <!-- LeCalculator Page -->
+    <div id="calculator" class="page active">
+        <div class="container">
+            <h1>👑 LeGoat Calculator</h1>
+            <p class="subtitle">See how your age compares to our glorious King James</p>
 
-        <div class="form-group">
-            <label for="birthDate">Your Birth Date</label>
-            <input type="date" id="birthDate" placeholder="Select your birth date">
-            <div class="error" id="error">Please enter a valid birth date</div>
-        </div>
-
-        <div class="button-group">
-            <button class="calculate-btn" onclick="calculateAge()">Calculate</button>
-            <button class="clear-btn" onclick="clearResults()">Clear</button>
-        </div>
-
-        <div class="results" id="results">
-            <div class="result-section">
-                <div class="result-title">Your Age</div>
-                <div class="result-value" id="yourAge">--</div>
+            <!-- Mode Toggle -->
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="age" onclick="switchMode('age')">Age Mode</button>
+                <button class="mode-btn" data-mode="birthday" onclick="switchMode('birthday')">Birthday Mode</button>
+                <button class="mode-btn" data-mode="epoch" onclick="switchMode('epoch')">LeEpoch</button>
             </div>
 
-            <div class="result-section">
-                <div class="result-title">LeBron's Age</div>
-                <div class="result-value" id="lebronAge">--</div>
+            <div class="info-box" id="infoBox">
+                Our LePookie bear James was born on December 30, 1984. Enter your birth date to compare to our honey snookums!🫶
             </div>
 
-            <div class="divider"></div>
-
-            <div class="result-section">
-                <div class="result-title">Age Difference</div>
-                <div class="result-value comparison" id="ageDiff">--</div>
+            <!-- Age Mode Input -->
+            <div class="form-group hidden-input" id="ageInput">
+                <label for="userAge">Your Age</label>
+                <input type="number" id="userAge" placeholder="Enter your age" min="0">
+                <div class="error" id="errorAge">Please enter a valid age</div>
             </div>
 
-            <div class="divider"></div>
-
-            <div class="result-section">
-                <div class="result-title">Seconds Since LeBron's Birth</div>
-                <div class="result-value" id="secondsSinceLebron">--</div>
-                <div class="timer-info">Updating in real-time...</div>
+            <!-- Birthday Mode Input -->
+            <div class="form-group" id="birthdayInput">
+                <label for="birthDate">Your Birth Date</label>
+                <input type="date" id="birthDate" placeholder="Select your birth date">
+                <div class="error" id="error">Please enter a valid birth date</div>
             </div>
 
-            <div class="divider"></div>
+            <div class="button-group">
+                <button class="calculate-btn" onclick="calculate()">Calculate</button>
+                <button class="clear-btn" onclick="clearResults()">Clear</button>
+            </div>
 
-            <div class="result-section">
-                <div class="result-title">Your Age Difference (in seconds)</div>
-                <div class="result-value comparison" id="secondsDiff">--</div>
+            <div class="results" id="results">
+                <div class="result-section" id="ageYourAge">
+                    <div class="result-title">Your Age</div>
+                    <div class="result-value" id="yourAge">--</div>
+                </div>
+
+                <div class="result-section" id="lebronAgeSection">
+                    <div class="result-title">LeHunky's Age</div>
+                    <div class="result-value" id="lebronAge">--</div>
+                </div>
+
+                <div class="divider" id="divider1"></div>
+
+                <div class="result-section" id="ageDiffSection">
+                    <div class="result-title">Age Difference</div>
+                    <div class="result-value comparison" id="ageDiff">--</div>
+                </div>
+
+                <div id="birthdayResults">
+                    <div class="divider"></div>
+
+                    <div class="result-section">
+                        <div class="result-title">Seconds Since LeBonBons Birth</div>
+                        <div class="result-value" id="secondsSinceLebron">--</div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="result-section">
+                        <div class="result-title">Your Age Difference (in seconds)</div>
+                        <div class="result-value comparison" id="secondsDiff">--</div>
+                    </div>
+                </div>
+
+                <div id="ageResults" class="hidden-input">
+                    <div class="divider"></div>
+
+                    <div class="result-section">
+                        <div class="result-title">Estimated Age Difference (in seconds)</div>
+                        <div class="result-value comparison" id="secondsDiffEstimated">--</div>
+                        <div style="font-size: 12px; color: #999; margin-top: 10px;">*Estimated based on average year length</div>
+                    </div>
+                </div>
+
+                <div id="epochResults" class="hidden-input">
+                    <div class="divider"></div>
+
+                    <div class="result-section">
+                        <div class="result-title">LeEpoch - Seconds Since Our Glorious King's Birth</div>
+                        <div class="result-value" id="epochCounter">--</div>
+                        <div style="font-size: 12px; color: #999; margin-top: 10px;">Updating in real-time 🫶</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        const LEBRON_BIRTH = new Date(1984, 11, 30); // December 30, 1984
+    <!-- Sunshine Page -->
+    <!-- Sunshine Page -->
+    <div id="sunshine" class="page">
+        <img src="LePookie_My_Sunshine.png" alt="Our Glorious King" class="sunshine-image">
+        
+        <div class="audio-player">
+            <audio controls loop>
+                <source src="sunshine.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+    <!-- Sunshine Footer -->
+    <div class="sunshine-footer" id="sunshineFooter">
+        <h2>🌞 Sunshine 🫶</h2>
+        <p>Bask in the glory of our glorious king</p>
+    </div>
 
-        function calculateAge() {
+    <script>
+        const LEBRON_BIRTH = new Date(1984, 11, 30);
+        let currentMode = 'age';
+        let currentPage = 'calculator';
+        let updateInterval = null;
+
+        function switchPage(page, event) {
+            currentPage = page;
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Change background based on page
+            if (page === 'sunshine') {
+                document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('LePookie_My_Sunshine.png')";
+                document.getElementById('sunshineFooter').classList.add('show');
+                // Auto play audio
+                const audio = document.querySelector('audio');
+                audio.play();
+            } else {
+                document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('glorious_pookie_James.png')";
+                document.getElementById('sunshineFooter').classList.remove('show');
+                // Stop audio
+                const audio = document.querySelector('audio');
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+
+function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+
+            const buttonGroup = document.querySelector('.button-group');
+
+            if (mode === 'birthday') 
+            {
+                document.getElementById('infoBox').textContent = 'Enter your birth date to see how you stack up against our MAGNIFICENT POOKIE BEAR 🫶';
+                document.getElementById('birthdayInput').classList.remove('hidden-input');
+                document.getElementById('ageInput').classList.add('hidden-input');
+                buttonGroup.style.display = 'flex';
+                clearResults();
+            } else if (mode === 'age') 
+            {
+                document.getElementById('infoBox').textContent = 'Our LePookie bear James was born on December 30, 1984. Enter your birth date to compare to our honey snookums!🫶';
+                document.getElementById('ageInput').classList.remove('hidden-input');
+                document.getElementById('birthdayInput').classList.add('hidden-input');
+                buttonGroup.style.display = 'flex';
+                clearResults();
+            } 
+            else if (mode === 'epoch') {
+                document.getElementById('infoBox').textContent = 'Watch as time passes since our glorious king entered this world 👑';
+                document.getElementById('birthdayInput').classList.add('hidden-input');
+                document.getElementById('ageInput').classList.add('hidden-input');
+                buttonGroup.style.display = 'none';
+                startEpochCounter();
+            }
+        }
+
+        function getLeBronAge() {
+            const today = new Date();
+            let lebronAge = today.getFullYear() - LEBRON_BIRTH.getFullYear();
+            const monthDiff = today.getMonth() - LEBRON_BIRTH.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < LEBRON_BIRTH.getDate())) {
+                lebronAge--;
+            }
+            return lebronAge;
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function calculate() {
+            if (currentMode === 'birthday') {
+                calculateBirthday();
+            } else if (currentMode === 'age') {
+                calculateAge();
+            } else if (currentMode === 'epoch') {
+                startEpochCounter();
+            }
+        }
+
+        function calculateBirthday() {
             const errorEl = document.getElementById('error');
             const birthDateInput = document.getElementById('birthDate').value;
 
@@ -265,34 +596,93 @@
                 return;
             }
 
-            // Calculate ages
             let yourAge = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
             if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                 yourAge--;
             }
 
-            let lebronAge = today.getFullYear() - LEBRON_BIRTH.getFullYear();
-            const lebronMonthDiff = today.getMonth() - LEBRON_BIRTH.getMonth();
-            if (lebronMonthDiff < 0 || (lebronMonthDiff === 0 && today.getDate() < LEBRON_BIRTH.getDate())) {
-                lebronAge--;
-            }
-
+            const lebronAge = getLeBronAge();
             const ageDifference = yourAge - lebronAge;
 
-            // Calculate seconds
             const secondsSinceLebron = Math.floor((today - LEBRON_BIRTH) / 1000);
             const secondsSinceYou = Math.floor((today - birthDate) / 1000);
             const secondsDifference = secondsSinceYou - secondsSinceLebron;
 
-            // Display results
+            displayResults(yourAge, lebronAge, ageDifference, secondsSinceLebron, secondsDifference);
+
+            // Hide all result sections first, then show the correct ones
+            document.getElementById('ageYourAge').classList.remove('hidden-input');
+            document.getElementById('lebronAgeSection').classList.remove('hidden-input');
+            document.getElementById('ageDiffSection').classList.remove('hidden-input');
+            document.getElementById('divider1').classList.remove('hidden-input');
+            document.getElementById('birthdayResults').classList.remove('hidden-input');
+            document.getElementById('ageResults').classList.add('hidden-input');
+            document.getElementById('epochResults').classList.add('hidden-input');
+
+            updateSecondsInRealTime(secondsSinceLebron, secondsDifference);
+        }
+
+        function calculateAge() {
+            const errorEl = document.getElementById('errorAge');
+            const ageInput = document.getElementById('userAge').value;
+
+            errorEl.classList.remove('show');
+
+            if (!ageInput || isNaN(parseInt(ageInput)) || parseInt(ageInput) < 0) {
+                errorEl.classList.add('show');
+                document.getElementById('results').classList.remove('show');
+                return;
+            }
+
+            const yourAge = parseInt(ageInput);
+            const lebronAge = getLeBronAge();
+            const ageDifference = yourAge - lebronAge;
+
+            const secondsPerYear = 365.25 * 24 * 60 * 60;
+            const secondsDifference = Math.floor(ageDifference * secondsPerYear);
+
             document.getElementById('yourAge').textContent = yourAge;
             document.getElementById('lebronAge').textContent = lebronAge;
 
             if (ageDifference > 0) {
-                document.getElementById('ageDiff').innerHTML = `<span class="older">You are ${ageDifference} year${ageDifference !== 1 ? 's' : ''} older</span>`;
+                document.getElementById('ageDiff').innerHTML = `<span class="older">You are ${ageDifference} year${ageDifference !== 1 ? 's' : ''} older than LeGoat</span>`;
             } else if (ageDifference < 0) {
-                document.getElementById('ageDiff').innerHTML = `<span class="younger">You are ${Math.abs(ageDifference)} year${Math.abs(ageDifference) !== 1 ? 's' : ''} younger</span>`;
+                document.getElementById('ageDiff').innerHTML = `<span class="younger">You are ${Math.abs(ageDifference)} year${Math.abs(ageDifference) !== 1 ? 's' : ''} younger than LeGoat</span>`;
+            } else {
+                document.getElementById('ageDiff').innerHTML = `<span>You are the same age!</span>`;
+            }
+
+            if (secondsDifference > 0) {
+                document.getElementById('secondsDiffEstimated').innerHTML = `<span class="older">${formatNumber(secondsDifference)} seconds older than LeGoat</span>`;
+            } else if (secondsDifference < 0) {
+                document.getElementById('secondsDiffEstimated').innerHTML = `<span class="younger">${formatNumber(Math.abs(secondsDifference))} seconds younger than LeGoat</span>`;
+            } else {
+                document.getElementById('secondsDiffEstimated').innerHTML = `<span>Same age in seconds!</span>`;
+            }
+
+            // Hide all result sections first
+            document.getElementById('ageYourAge').classList.remove('hidden-input');
+            document.getElementById('lebronAgeSection').classList.remove('hidden-input');
+            document.getElementById('ageDiffSection').classList.remove('hidden-input');
+            document.getElementById('divider1').classList.remove('hidden-input');
+            document.getElementById('birthdayResults').classList.add('hidden-input');
+            document.getElementById('ageResults').classList.remove('hidden-input');
+            document.getElementById('epochResults').classList.add('hidden-input');
+            document.getElementById('results').classList.add('show');
+
+            if (updateInterval) clearInterval(updateInterval);
+        }
+
+
+        function displayResults(yourAge, lebronAge, ageDifference, secondsSinceLebron, secondsDifference) {
+            document.getElementById('yourAge').textContent = yourAge;
+            document.getElementById('lebronAge').textContent = lebronAge;
+
+            if (ageDifference > 0) {
+                document.getElementById('ageDiff').innerHTML = `<span class="older">You are ${ageDifference} year${ageDifference !== 1 ? 's' : ''} older than LeGoat</span>`;
+            } else if (ageDifference < 0) {
+                document.getElementById('ageDiff').innerHTML = `<span class="younger">You are ${Math.abs(ageDifference)} year${Math.abs(ageDifference) !== 1 ? 's' : ''} younger than LeGoat</span>`;
             } else {
                 document.getElementById('ageDiff').innerHTML = `<span>You are the same age!</span>`;
             }
@@ -300,21 +690,20 @@
             document.getElementById('secondsSinceLebron').textContent = formatNumber(secondsSinceLebron);
 
             if (secondsDifference > 0) {
-                document.getElementById('secondsDiff').innerHTML = `<span class="older">${formatNumber(secondsDifference)} seconds older</span>`;
+                document.getElementById('secondsDiff').innerHTML = `<span class="older">${formatNumber(secondsDifference)} seconds older than LeGoat</span>`;
             } else if (secondsDifference < 0) {
-                document.getElementById('secondsDiff').innerHTML = `<span class="younger">${formatNumber(Math.abs(secondsDifference))} seconds younger</span>`;
+                document.getElementById('secondsDiff').innerHTML = `<span class="younger">${formatNumber(Math.abs(secondsDifference))} seconds younger than LeGoat</span>`;
             } else {
                 document.getElementById('secondsDiff').innerHTML = `<span>Same age in seconds!</span>`;
             }
 
             document.getElementById('results').classList.add('show');
-
-            // Update seconds in real-time
-            updateSecondsInRealTime(secondsSinceLebron, secondsDifference);
         }
 
         function updateSecondsInRealTime(initialLebronSeconds, initialDifference) {
-            setInterval(() => {
+            if (updateInterval) clearInterval(updateInterval);
+            
+            updateInterval = setInterval(() => {
                 const now = new Date();
                 const currentLebronSeconds = Math.floor((now - LEBRON_BIRTH) / 1000);
                 const currentDifference = initialDifference + (currentLebronSeconds - initialLebronSeconds);
@@ -322,28 +711,60 @@
                 document.getElementById('secondsSinceLebron').textContent = formatNumber(currentLebronSeconds);
 
                 if (currentDifference > 0) {
-                    document.getElementById('secondsDiff').innerHTML = `<span class="older">${formatNumber(currentDifference)} seconds older</span>`;
+                    document.getElementById('secondsDiff').innerHTML = `<span class="older">${formatNumber(currentDifference)} seconds older than LeGoat</span>`;
                 } else if (currentDifference < 0) {
-                    document.getElementById('secondsDiff').innerHTML = `<span class="younger">${formatNumber(Math.abs(currentDifference))} seconds younger</span>`;
+                    document.getElementById('secondsDiff').innerHTML = `<span class="younger">${formatNumber(Math.abs(currentDifference))} seconds younger than LeGoat</span>`;
                 } else {
                     document.getElementById('secondsDiff').innerHTML = `<span>Same age in seconds!</span>`;
                 }
             }, 1000);
         }
 
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
         function clearResults() {
             document.getElementById('birthDate').value = '';
+            document.getElementById('userAge').value = '';
             document.getElementById('results').classList.remove('show');
             document.getElementById('error').classList.remove('show');
+            document.getElementById('errorAge').classList.remove('show');
+            if (updateInterval) clearInterval(updateInterval);
         }
 
         document.getElementById('birthDate').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                calculateAge();
+            if (event.key === 'Enter') calculate();
+        });
+
+        document.getElementById('userAge').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') calculate();
+        });
+
+        function startEpochCounter() {
+            document.getElementById('results').classList.add('show');
+            document.getElementById('ageYourAge').classList.add('hidden-input');
+            document.getElementById('lebronAgeSection').classList.add('hidden-input');
+            document.getElementById('ageDiffSection').classList.add('hidden-input');
+            document.getElementById('divider1').classList.add('hidden-input');
+            document.getElementById('birthdayResults').classList.add('hidden-input');
+            document.getElementById('ageResults').classList.add('hidden-input');
+            document.getElementById('epochResults').classList.remove('hidden-input');
+
+            if (updateInterval) clearInterval(updateInterval);
+            
+            function updateEpoch() {
+                const now = new Date();
+                const epochSeconds = Math.floor((now - LEBRON_BIRTH) / 1000);
+                document.getElementById('epochCounter').textContent = formatNumber(epochSeconds);
+            }
+
+            updateEpoch();
+            updateInterval = setInterval(updateEpoch, 1);
+        }
+
+        // Initialize the correct view on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            if (currentMode === 'age') {
+                document.getElementById('infoBox').textContent = 'Our LePookie bear James was born on December 30, 1984. Enter your birth date to compare to our honey snookums!🫶';
+                document.getElementById('ageInput').classList.remove('hidden-input');
+                document.getElementById('birthdayInput').classList.add('hidden-input');
             }
         });
     </script>

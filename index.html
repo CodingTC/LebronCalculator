@@ -436,6 +436,14 @@
 
     </style>
     <script src="https://js.stripe.com/v3/"></script>
+   <script>
+        // Fetch Stripe publishable key from backend
+        fetch('/api/config')
+            .then(r => r.json())
+            .then(data => {
+                window.STRIPE_PUBLISHABLE_KEY = data.stripePublishableKey;
+            });
+    </script>
 </head>
 <body>
     <!-- Navbar -->
@@ -593,111 +601,129 @@
                 <button class="donate-btn" onclick="processDonation()">Donate Now 🙏</button>
                 <div id="donationStatus"></div>
             </div>
+            <div style="border-top: 2px solid #000; margin: 30px 0; padding-top: 20px; text-align: center; color: #666; font-size: 12px;">
+                Or
+                With Ko-Fi
+            <iframe id='kofiframe' src='https://ko-fi.com/lecalc/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;margin-top:30px;background:#f9f9f9;' height='712' title='lecalc'></iframe>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Initialize Stripe
-        const stripe = Stripe('pk_test_51SRay7FaQ2JnmmbYZQh6vbBR7fo0MhOJVIqey7kXn2btpupwVxkhdRvgSKGrekuYLFZlZJ1rIdT2TKsBuA5hWxmm00uHCHJGCh'); // Replace with your actual publishable key
-        const elements = stripe.elements();
-        const cardElement = elements.create('card');
+<script>
+    // Wait for the key to be loaded, then initialize Stripe
+    let stripe, elements, cardElement;
+    
+    const initStripe = setInterval(() => {
+        if (window.STRIPE_PUBLISHABLE_KEY) {
+            clearInterval(initStripe);
+            stripe = Stripe(window.STRIPE_PUBLISHABLE_KEY);
+            elements = stripe.elements();
+            cardElement = elements.create('card');
+        }
+    }, 100);
 
-        // Mount card element when donate page loads
-        function initializeCard() {
-            if (document.getElementById('card-element').children.length === 0) {
-                cardElement.mount('#card-element');
-            }
+    // Mount card element when donate page loads
+    function initializeCard() {
+        if (cardElement && document.getElementById('card-element').children.length === 0) {
+            cardElement.mount('#card-element');
+        }
+    }
+
+    async function processDonation() {
+        const name = document.getElementById('donorName').value;
+        const email = document.getElementById('donorEmail').value;
+        const amount = document.getElementById('donationAmount').value;
+        const message = document.getElementById('donationMessage').value;
+        const statusEl = document.getElementById('donationStatus');
+        const errorEl = document.getElementById('card-errors');
+
+        // Validation
+        if (!name || !email || !amount) {
+            statusEl.textContent = '❌ Please fill in all required fields';
+            statusEl.className = 'error';
+            return;
         }
 
-        async function processDonation() {
-            const name = document.getElementById('donorName').value;
-            const email = document.getElementById('donorEmail').value;
-            const amount = document.getElementById('donationAmount').value;
-            const message = document.getElementById('donationMessage').value;
-            const statusEl = document.getElementById('donationStatus');
-            const errorEl = document.getElementById('card-errors');
+        if (amount < 1) {
+            statusEl.textContent = '❌ Donation amount must be at least $1';
+            statusEl.className = 'error';
+            return;
+        }
 
-            // Validation
-            if (!name || !email || !amount) {
-                statusEl.textContent = '❌ Please fill in all required fields';
-                statusEl.className = 'error';
-                return;
+        if (!stripe) {
+            statusEl.textContent = '❌ Payment system loading... please wait';
+            statusEl.className = 'error';
+            return;
+        }
+
+        errorEl.classList.remove('show');
+        statusEl.textContent = '⏳ Processing your donation...';
+        statusEl.className = '';
+
+        // Create payment method
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+            billing_details: {
+                name: name,
+                email: email
             }
+        });
 
-            if (amount < 1) {
-                statusEl.textContent = '❌ Donation amount must be at least $1';
-                statusEl.className = 'error';
-                return;
-            }
+        if (error) {
+            errorEl.textContent = `❌ ${error.message}`;
+            errorEl.classList.add('show');
+            statusEl.textContent = '';
+            return;
+        }
 
-            errorEl.classList.remove('show');
-            statusEl.textContent = '⏳ Processing your donation...';
-            statusEl.className = '';
-
-            // Create payment method
-            const { error, paymentMethod } = await stripe.createPaymentMethod({
-                type: 'card',
-                card: cardElement,
-                billing_details: {
+        // Send to your backend
+        try {
+            const response = await fetch('/api/process-donation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: parseFloat(amount) * 100,
+                    paymentMethodId: paymentMethod.id,
                     name: name,
-                    email: email
-                }
+                    email: email,
+                    message: message
+                })
             });
 
-            if (error) {
-                errorEl.textContent = `❌ ${error.message}`;
-                errorEl.classList.add('show');
-                statusEl.textContent = '';
-                return;
-            }
+            const result = await response.json();
 
-            // Send to your backend
-            try {
-                const response = await fetch('/api/process-donation', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        amount: parseFloat(amount) * 100, // Stripe uses cents
-                        paymentMethodId: paymentMethod.id,
-                        name: name,
-                        email: email,
-                        message: message
-                    })
-                });
+            if (result.success) {
+                statusEl.innerHTML = `
+                    ✅ Thank you for your donation, ${name}!<br>
+                    Amount: $${parseFloat(amount).toFixed(2)}<br>
+                    <small style="color: #666; margin-top: 5px; display: block;">
+                    Your donation has been processed successfully. Bless you! 🙏
+                    </small>
+                `;
+                statusEl.className = 'success';
 
-                const result = await response.json();
-
-                if (result.success) {
-                    statusEl.innerHTML = `
-                        ✅ Thank you for your donation, ${name}!<br>
-                        Amount: $${parseFloat(amount).toFixed(2)}<br>
-                        <small style="color: #666; margin-top: 5px; display: block;">
-                        Your donation has been processed successfully. Bless you! 🙏
-                        </small>
-                    `;
-                    statusEl.className = 'success';
-
-                    // Clear form after 3 seconds
-                    setTimeout(() => {
-                        document.getElementById('donorName').value = '';
-                        document.getElementById('donorEmail').value = '';
-                        document.getElementById('donationAmount').value = '';
-                        document.getElementById('donationMessage').value = '';
-                        cardElement.clear();
-                    }, 3000);
-                } else {
-                    errorEl.textContent = `❌ ${result.error}`;
-                    errorEl.classList.add('show');
-                    statusEl.textContent = '';
-                }
-            } catch (error) {
-                errorEl.textContent = `❌ Error processing donation: ${error.message}`;
+                setTimeout(() => {
+                    document.getElementById('donorName').value = '';
+                    document.getElementById('donorEmail').value = '';
+                    document.getElementById('donationAmount').value = '';
+                    document.getElementById('donationMessage').value = '';
+                    cardElement.clear();
+                }, 3000);
+            } else {
+                errorEl.textContent = `❌ ${result.error}`;
                 errorEl.classList.add('show');
                 statusEl.textContent = '';
             }
+        } catch (error) {
+            errorEl.textContent = `❌ Error processing donation: ${error.message}`;
+            errorEl.classList.add('show');
+            statusEl.textContent = '';
         }
+    }
+
         const LEBRON_BIRTH = new Date(1984, 11, 30);
         let currentMode = 'age';
         let currentPage = 'calculator';
@@ -980,6 +1006,15 @@ function switchMode(mode) {
         });
 
 
+    </script>
+
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    <script>
+      kofiWidgetOverlay.draw('lecalc', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support me',
+        'floating-chat.donateButton.background-color': '#27ae60'
+      });
     </script>
 </body>
 </html>

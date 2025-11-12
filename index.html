@@ -454,51 +454,106 @@
             display: block;
         }
         .disclaimer-footer {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: #fff3cd;
-                border-top: 1px solid #ffc107;
-                padding: 10px;
-                text-align: center;
-                font-size: 11px;
-                color: #856404;
-                display: none;
-                z-index: 5;
-            }
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff3cd;
+            border-top: 1px solid #ffc107;
+            padding: 10px;
+            text-align: center;
+            font-size: 11px;
+            color: #856404;
+            display: none;
+            z-index: 5;
+        }
 
-            .disclaimer-footer.show {
-                display: block;
-            }
+        .disclaimer-footer.show {
+            display: block;
+        }
 
-            /* Add padding to body when disclaimer shows */
-            body.disclaimer-active {
-                padding-bottom: 60px;
-            }
+        /* Add padding to body when disclaimer shows */
+        body.disclaimer-active {
+            padding-bottom: 60px;
+        }
 
-    </style>
-    <script src="https://js.stripe.com/v3/"></script>
-   <script>
-        // Fetch Stripe publishable key from backend
-        fetch('/api/config')
-            .then(r => r.json())
-            .then(data => {
-                window.STRIPE_PUBLISHABLE_KEY = data.stripePublishableKey;
-            });
-    </script>
+        .boyoh-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 0px;
+            border: 2px solid #999;
+            filter: contrast(1.1) brightness(0.95);
+        }
+
+        .boyoh-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .boyoh-column img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #999;
+            border-radius: 0px;
+        }
+
+        .boyoh-center {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .boyoh-center img {
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid #999;
+            border-radius: 0px;
+        }
+
+        .boyoh-text {
+            text-align: center;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+
+        #boyoh {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('glorious_pookie_James.png');
+        }
+
+</style>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    // Fetch Stripe publishable key from backend
+    fetch('/api/config')
+        .then(r => r.json())
+        .then(data => {
+            window.STRIPE_PUBLISHABLE_KEY = data.stripePublishableKey;
+        });
+</script>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <button class="nav-btn active" onclick="switchPage('calculator', event)">LeCalculator</button>
-        <button class="nav-btn" onclick="switchPage('sunshine', event)">Sunshine 🫶</button>
-        <button class="nav-btn" onclick="switchPage('donate', event)">Donate 💰</button>
-    </div>
+<!-- Navbar -->
+<div class="navbar">
+    <button class="nav-btn active" onclick="switchPage('calculator', event)">LeCalculator</button>
+    <button class="nav-btn" onclick="switchPage('sunshine', event)">Sunshine 🫶</button>
+    <button class="nav-btn" onclick="switchPage('boyoh', event)">Boy oh boy...</button>
+    <button class="nav-btn" onclick="switchPage('donate', event)">Donate 💰</button>
+</div>
 
-    <!-- LeCalculator Page -->
-    <div id="calculator" class="page active">
+<!-- LeCalculator Page -->
+<div id="calculator" class="page active">
         <div class="container">
             <h1>👑 LeGoat Calculator</h1>
             <p class="subtitle">See how your age compares to our glorious King James</p>
@@ -780,7 +835,7 @@
             const disclaimerFooter = document.getElementById('disclaimerFooter');
             const youtubeIframe = document.querySelector('#sunshine .youtube-container iframe');
 
-            if (page === 'calculator' || page === 'donate') {
+            if (page === 'calculator' || page === 'donate' || page === 'boyoh') {
                     disclaimerFooter.classList.add('show');
                     document.body.classList.add('disclaimer-active');
                     if (youtubeIframe) 
@@ -810,7 +865,15 @@
                 document.getElementById('sunshineFooter').classList.remove('show');
                 // Initialize Stripe card element
                 initializeCard();
-            } else {
+            } else if (page === 'boyoh') {
+                document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('glorious_pookie_James.png')";
+                document.getElementById('sunshineFooter').classList.remove('show');
+                // Stop audio
+                const audio = document.querySelector('audio');
+                audio.pause();
+                audio.currentTime = 0;
+            }
+            else {
                 document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('glorious_pookie_James.png')";
                 document.getElementById('sunshineFooter').classList.remove('show');
                 // Stop audio
@@ -1070,6 +1133,34 @@ function switchMode(mode) {
 
 
     </script>
+    <!-- Boy oh boy Page -->
+    <div id="boyoh" class="page">
+        <div class="boyoh-container">
+            <!-- Left Column -->
+            <div class="boyoh-column">
+                <!-- Add your images here -->
+                <img src="placeholder1.jpg" alt="LeBron moment">
+                <img src="placeholder2.jpg" alt="LeBron moment">
+                <img src="placeholder3.jpg" alt="LeBron moment">
+            </div>
+
+            <!-- Center Column -->
+            <div class="boyoh-center">
+                <img src="lebon.jpeg" alt="Our Glorious King">
+                <p class="boyoh-text">
+                    Boy oh boy where do I even begin. Lebron... honey, my pookie bear. I have loved you ever since I first laid eyes on you. The way you drive into the paint and strike fear into your enemies eyes. Your silky smooth touch around the rim, and that gorgeous jumpshot. I would do anything for you. I wish it were possible to freeze time so I would never have to watch you retire. You had a rough childhood, but you never gave up hope. You are even amazing off the court, you're a great husband and father, sometimes I even call you dad. I forvever dread and weep, thinking of the day you will one day retire. I would sacrifice my own life it were the only thing that could put a smile on your beautiful face. You have given me so much joy, and heartbreak over the years. I remember when you first left clevenland and its like my heart got broken into a million pieces. But a tear still fell from my right eye when I watched you win your first ring in miami, because deep down, my glorious king deserved it. I just wanted you to return home. Then allas, you did, my sweet baby boy came home and I rejoiced. 2015 was a hard year for us baby, but in 2016 you made history happen. You came back from 3-1 and I couldn't believe it. I was crying, bawling even, and I heard my glorious king exclaim these words, "CLEVELAND, THIS IS FOR YOU!" Not only have you changed the game of basketball and the world forever, but you've eternally changed my world. And now you're getting older, but still the goat, my goat. I love you pookie bear, my glorious king, Lebron James.☺️♥️🫶🏻
+                </p>
+            </div>
+
+            <!-- Right Column -->
+            <div class="boyoh-column">
+                <!-- Add your images here -->
+                <img src="placeholder4.jpg" alt="LeBron moment">
+                <img src="placeholder5.jpg" alt="LeBron moment">
+                <img src="placeholder6.jpg" alt="LeBron moment">
+            </div>
+        </div>
+    </div>
 
     <div id="disclaimerFooter" class="disclaimer-footer">
         <strong>⚠️ Disclaimer:</strong> This is an unofficial fan site. Not affiliated with, endorsed by, or associated with LeBron James or the NBA.
